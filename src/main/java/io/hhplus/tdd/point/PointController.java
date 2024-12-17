@@ -19,25 +19,35 @@ import lombok.RequiredArgsConstructor;
 public class PointController {
 
 	private static final Logger log = LoggerFactory.getLogger(PointController.class);
-	private final PointService pointService;
+	private final PointFacade pointFacade;
 
 	@GetMapping("{id}")
-	public UserPoint point(@PathVariable long id) {
-		return pointService.getUserPoint(id);
+	public UserPoint point(
+		@PathVariable long id
+	) {
+		return pointFacade.getPointById(id);
 	}
 
 	@GetMapping("{id}/histories")
-	public List<PointHistory> history(@PathVariable long id) {
-		return pointService.getUserHistories(id);
+	public List<PointHistory> history(
+		@PathVariable long id
+	) {
+		return pointFacade.getPointHistoryByUserId(id);
 	}
 
 	@PatchMapping("{id}/charge")
-	public UserPoint charge(@PathVariable long id, @RequestBody long amount) {
-		return pointService.chargeUserPoint(id, amount);
+	public UserPoint charge(
+		@PathVariable long id,
+		@RequestBody long amount
+	) {
+		return pointFacade.chargePoint(id, amount);
 	}
 
 	@PatchMapping("{id}/use")
-	public UserPoint use(@PathVariable long id, @RequestBody long amount) {
-		return pointService.useUserPoint(id, amount);
+	public UserPoint use(
+		@PathVariable long id,
+		@RequestBody long amount
+	) {
+		return pointFacade.usePoint(id, amount);
 	}
 }
