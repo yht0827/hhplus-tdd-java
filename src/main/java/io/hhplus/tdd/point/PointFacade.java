@@ -10,8 +10,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PointFacade {
 
-	private final InMemoryPointService pointService;
-	private final InMemoryPointValidationService pointValidationService;
+	private final PointService pointService;
+	private final PointValidationService pointValidationService;
 
 	public UserPoint getPointById(long id) {
 		return pointService.getPointById(id);
@@ -38,5 +38,4 @@ public class PointFacade {
 	private long getBalance(long id) {
 		return getPointById(id).point();
 	}
-
 }
