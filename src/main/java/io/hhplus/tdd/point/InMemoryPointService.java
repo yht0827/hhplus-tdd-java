@@ -12,17 +12,17 @@ public class InMemoryPointService implements PointService {
 	private final UserPointTable userPointTable;
 
 	@Override
-	public UserPoint getPointById(long id) {
+	public synchronized UserPoint getPointById(long id) {
 		return userPointTable.selectById(id);
 	}
 
 	@Override
-	public UserPoint chargePoint(long id, long balance, long amount) {
+	public synchronized UserPoint chargePoint(long id, long balance, long amount) {
 		return userPointTable.insertOrUpdate(id, balance + amount);
 	}
 
 	@Override
-	public UserPoint usePoint(long id, long balance, long amount) {
+	public synchronized UserPoint usePoint(long id, long balance, long amount) {
 		return userPointTable.insertOrUpdate(id, balance - amount);
 	}
 
