@@ -1,7 +1,6 @@
 package io.hhplus.tdd.point;
 
 import java.util.List;
-import java.util.concurrent.locks.ReentrantLock;
 
 import org.springframework.stereotype.Component;
 
@@ -14,7 +13,7 @@ public class PointFacade {
 	private final PointService pointService;
 	private final PointValidationService pointValidationService;
 	private final PointHistoryService pointHistoryService;
-	private final ReentrantLock lock = new ReentrantLock(true);
+	private final LockService lockService;
 
 	public UserPoint getPointById(long id) {
 		return pointService.getPointById(id);
@@ -25,7 +24,7 @@ public class PointFacade {
 	}
 
 	public UserPoint chargePoint(long id, long amount) {
-		lock.lock();
+		lockService.lock();
 		try {
 			long balance = getBalance(id);
 
@@ -40,12 +39,12 @@ public class PointFacade {
 
 			return userPoint;
 		} finally {
-			lock.unlock();
+			lockService.unlock();
 		}
 	}
 
 	public UserPoint usePoint(long id, long amount) {
-		lock.lock();
+		lockService.lock();
 		try {
 			long balance = getBalance(id);
 
@@ -60,7 +59,7 @@ public class PointFacade {
 
 			return userPoint;
 		} finally {
-			lock.unlock();
+			lockService.unlock();
 		}
 	}
 
